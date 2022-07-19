@@ -38,7 +38,7 @@ public class RollComponent
 public class _Dice : RollComponent
 {
 
-    public int diceType { get; private set; }
+    private int diceType;
 
     public static _Dice d4 = new _Dice(4);
     public static _Dice d6 = new _Dice(6);
