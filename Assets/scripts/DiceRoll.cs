@@ -12,6 +12,10 @@ public class RollComponent
         return 0;
     }
     public int Evaluate() { return this.Evaluate(0); }
+    virtual public int GetDiceType()
+    {
+        return child.GetDiceType();
+    }
 }
 
 //DICE ROLL function
@@ -29,6 +33,11 @@ public class _Dice : RollComponent
         }
     }
     private int Roll() { return Random.Range(1, diceType + 1); }
+
+    public override int GetDiceType()
+    {
+        return diceType;
+    }
 }
 
 //MODIFIER function
