@@ -15,7 +15,7 @@ public class RollComponent
     {
         Debug.Log("oh god oh fuck no no no no no");
         Debug.Log("someone's done something very wrong");
-        child = new _Dice(4);//for safety :3
+        child = _Dice.d4;
     }
     virtual public int Evaluate(int mode)
     {
