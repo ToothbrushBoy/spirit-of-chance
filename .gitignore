@@ -73,3 +73,5 @@ crashlytics-build.properties
 
 /[Aa]ssets/[Aa]dobe/
 /[Aa]ssets/[Aa]dobe.meta
+/[Aa]ssets/[Tt]ext[Mm]esh Pro/
+/[Aa]ssets/art/skin/*_graph_*/*.tga

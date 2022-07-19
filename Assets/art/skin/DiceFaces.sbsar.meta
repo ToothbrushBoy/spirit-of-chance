@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 57e95541e050e18408b618a73023330a
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: dda12f74ff9116a42b23482252b2c482, type: 3}
+  _instancesCopy:
+  - {fileID: 11400000, guid: af90e97ee5380614aa7f03333743eeed, type: 2}
+  - {fileID: 11400000, guid: 25a65145f27885d4e81458cd8529129d, type: 2}
+  _fileAsset: {instanceID: 0}
+  _assetPath: Assets/art/skin/DiceFaces.sbsar
