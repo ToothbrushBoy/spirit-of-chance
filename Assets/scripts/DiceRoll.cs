@@ -3,10 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
+/* DO NOT USE THIS CLASS
+ * DO NOT USE THIS CLASS
+ * DO NOT USE THIS CLASS
+ * DO NOT USE THIS CLASS */
 public class RollComponent
 {
     protected RollComponent child;
+
+    public RollComponent()
+    {
+        Debug.Log("oh god oh fuck no no no no no");
+        Debug.Log("someone's done something very wrong");
+        child = new _Dice(4);//for safety :3
+    }
     virtual public int Evaluate(int mode)
     {
         return 0;
@@ -17,12 +27,23 @@ public class RollComponent
         return child.GetDiceType();
     }
 }
+/* DO NOT USE THIS CLASS
+ * DO NOT USE THIS CLASS
+ * DO NOT USE THIS CLASS
+ * DO NOT USE THIS CLASS */
 
-//DICE ROLL function
+// VV USE THESE VV
+
+//DICE ROLL
 public class _Dice : RollComponent
 {
 
     public int diceType { get; private set; }
+    public _Dice(int d)
+    {
+        diceType = d;
+    }
+
     override public int  Evaluate(int mode)
     {
         switch (mode)
@@ -40,7 +61,7 @@ public class _Dice : RollComponent
     }
 }
 
-//MODIFIER function
+//MODIFIER
 public class _Mod : RollComponent
 {
     public int mod { get; private set; }
@@ -56,14 +77,14 @@ public class _Mod : RollComponent
     }
 }
 
-//REROLL function
+//REROLL
 public class _Reroll : RollComponent
 {
     public int rerollThreshhold { get; private set; }
-    public _Reroll(RollComponent c, int t)
+    public _Reroll(RollComponent c, int threshholdSize)
     {
         child = c;
-        rerollThreshhold = c.Evaluate(1) + t - 1;
+        rerollThreshhold = c.Evaluate(1) + threshholdSize - 1;
     }
 
     override public int Evaluate(int mode)
@@ -77,7 +98,7 @@ public class _Reroll : RollComponent
     }
 }
 
-//MIN function
+//MIN
 public class _Min : RollComponent
 {
     public int min { get; private set; }
@@ -93,7 +114,7 @@ public class _Min : RollComponent
     }
 }
 
-//ADVANTAGE function
+//ADVANTAGE
 public class _Advantage : RollComponent
 {
     public _Advantage(RollComponent c)
@@ -106,14 +127,14 @@ public class _Advantage : RollComponent
     }
 }
 
-//EXPLODE function
+//EXPLODE
 public class _Explode : RollComponent
 {
     public int explodeThreshhold { get; private set; }
-    public _Explode(RollComponent c, int e)
+    public _Explode(RollComponent c, int threshholdSize)
     {
         child = c;
-        explodeThreshhold = c.Evaluate(2) - e + 1;
+        explodeThreshhold = c.Evaluate(2) - threshholdSize + 1;
     }
     override public int Evaluate(int mode)
     {
@@ -126,10 +147,10 @@ public class _Explode : RollComponent
 public class _Crit : RollComponent
 {
     public int critThreshhold { get; private set; }
-    public _Crit(RollComponent c, int t)
+    public _Crit(RollComponent c, int threshholdSize)
     {
         child = c;
-        critThreshhold = c.Evaluate(2) - t + 1;
+        critThreshhold = c.Evaluate(2) - threshholdSize + 1;
     }
 
     override public int Evaluate(int mode)
