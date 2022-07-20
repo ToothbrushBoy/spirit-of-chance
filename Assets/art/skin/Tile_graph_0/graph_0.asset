@@ -18,7 +18,7 @@ MonoBehaviour:
   Name: graph_0
   IsRoot: 1
   FlagedForDelete: 0
-  GUID: 54b7c1e9-f54c-43a4-9a1b-2b127ce5401a
+  GUID: b06abbd7-acf9-480e-ab91-108b36eb598f
   Index: 0
   Input:
   - rid: 1000
@@ -148,7 +148,8 @@ MonoBehaviour:
   Thumbnail: 
   HasThumbnail: 0
   CurrentStatePreset: " <sbspreset pkgurl=\"pkg://Tile\" label=\"\" >\n  <presetinput
-    identifier=\"$outputsize\" uid=\"1703792376\" type=\"8\" value=\"9,9\" />\n </sbspreset>\n"
+    identifier=\"$outputsize\" uid=\"1703792376\" type=\"8\" value=\"11,11\" />\n
+    </sbspreset>\n"
   IsRuntimeOnly: 1
   GenerateAllOutputs: 0
   GenerateAllMipmaps: 1
@@ -173,7 +174,7 @@ MonoBehaviour:
           GuiDescription: 
           Type: 5
           WidgetType: 0
-        Data: {x: 9, y: 9}
+        Data: {x: 11, y: 11}
         NumericalDescription:
           DefaultValue: {x: 8, y: 8}
           MinValue: {x: 0, y: 0}

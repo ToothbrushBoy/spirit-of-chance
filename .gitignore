@@ -75,3 +75,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Aa]dobe.meta
 /[Aa]ssets/[Tt]ext[Mm]esh Pro/
 /[Aa]ssets/art/skin/*_graph_*/*.tga
+hooks/post-checkout
+lfs/objects/8a/0a/8a0aa9cae476eee1b1edb0825258a8dea44771278b086ca93c831be9dad04b76
+lfs/objects/0e/87/0e872f0cd535af10e9f688dc8a9bf32299f9eaa552442af6ff57ea1d1b847a91
+hooks/pre-push
+hooks/post-merge
+hooks/post-commit

@@ -18,7 +18,7 @@ MonoBehaviour:
   Name: graph_0
   IsRoot: 1
   FlagedForDelete: 0
-  GUID: 698c040f-bd36-4869-a588-1cc2dcb96b05
+  GUID: fdb940fd-d1d5-452c-a7a4-0263fa06684b
   Index: 0
   Input:
   - rid: 1000
@@ -35,7 +35,7 @@ MonoBehaviour:
       Index: 0
       Type: 8
       Channel: baseColor
-    OutputTexture: {fileID: 2800000, guid: 5f0c432657b2c6b489f0dad8cccb10d2, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 1
     IsVirtual: 0
     IsStandardOutput: 1
@@ -52,7 +52,7 @@ MonoBehaviour:
       Index: 1
       Type: 8
       Channel: normal
-    OutputTexture: {fileID: 2800000, guid: f00abc3d96c769642af29a42c5e91816, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 0
     IsVirtual: 0
     IsStandardOutput: 1
@@ -103,7 +103,7 @@ MonoBehaviour:
       Index: 4
       Type: 8
       Channel: height
-    OutputTexture: {fileID: 2800000, guid: 08bcbc127bbbe1c4f9f4a6eb813115b9, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 1
     IsVirtual: 0
     IsStandardOutput: 1
@@ -137,7 +137,7 @@ MonoBehaviour:
       Index: 6
       Type: 8
       Channel: mask
-    OutputTexture: {fileID: 2800000, guid: b8f37281b7203714da12ecc990023735, type: 3}
+    OutputTexture: {fileID: 0}
     sRGB: 0
     IsVirtual: 1
     IsStandardOutput: 1
@@ -148,9 +148,8 @@ MonoBehaviour:
   Thumbnail: 
   HasThumbnail: 0
   CurrentStatePreset: " <sbspreset pkgurl=\"pkg://DiceFaces\" label=\"\" >\n  <presetinput
-    identifier=\"$outputsize\" uid=\"1871848441\" type=\"8\" value=\"10,10\" />\n
-    </sbspreset>\n"
-  IsRuntimeOnly: 0
+    identifier=\"$outputsize\" uid=\"1871848441\" type=\"8\" value=\"10,10\" />\n</sbspreset>\n"
+  IsRuntimeOnly: 1
   GenerateAllOutputs: 0
   GenerateAllMipmaps: 1
   OutputMaterial: {fileID: 2100000, guid: 7554aa1f814cf7f40917fdbbb57718dc, type: 2}
