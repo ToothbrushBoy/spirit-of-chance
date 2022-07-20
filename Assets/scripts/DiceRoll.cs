@@ -1,7 +1,70 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class RollResult
+{
+    public int result;
+    public List<int> results;
+
+    public RollResult()
+    {
+        result = 0;
+        results = new List<int>();
+    }
+
+    /* OPERATOR
+     * OVERLOADS
+     */
+
+    // ARITHMETIC OVERLOADS
+    public static RollResult operator +(RollResult a, RollResult b)
+    {
+        a += b.result;
+        foreach(int r in b.results)
+        {
+            a.results.Add(r);
+        }
+        return a;
+    }
+    public static RollResult operator +(RollResult a, int b)
+    {
+        a.result += b;
+        return a;
+    }
+    public static RollResult operator +(int a, RollResult b) => b + a;
+
+    public static RollResult operator *(RollResult a, int b)
+    {
+        a.result *= b;
+        return a;
+    }
+    public static RollResult operator *(int a, RollResult b) => b * a;
+
+    // COMPARISON OVERLOADS
+    public static bool operator <(RollResult a, RollResult b) => a < b.result;
+    public static bool operator >(RollResult a, RollResult b) => a > b.result;
+    public static bool operator ==(RollResult a, RollResult b) => a == b.result;
+    public static bool operator !=(RollResult a, RollResult b) => a != b.result;
+    public static bool operator <(RollResult a, int b) => b > a;
+    public static bool operator >(RollResult a, int b) => b < a;
+    public static bool operator ==(RollResult a, int b) => b == a;
+    public static bool operator !=(RollResult a, int b) => b != a;
+    public static bool operator <(int a, RollResult b) => a < b.result;
+    public static bool operator >(int a, RollResult b) => a > b.result;
+    public static bool operator ==(int a, RollResult b) => a == b.result;
+    public static bool operator !=(int a, RollResult b) => a != b.result;
+    public override bool Equals(object obj) => obj is RollResult && GetHashCode() == obj.GetHashCode();
+    public override int GetHashCode() => HashCode.Combine(result, results);
+
+    public static implicit operator int(RollResult a) => a.result;
+    public static explicit operator RollResult(int a)
+    {
+        RollResult r = new RollResult { result = a, results = new List<int> { a } };
+        return r;
+    }
+}
 
 /* DO NOT USE THIS CLASS
  * DO NOT USE THIS CLASS
@@ -17,20 +80,27 @@ public class RollComponent
         Debug.Log("someone's done something very wrong");
         child = _Dice.d4;
     }
-    virtual public int Evaluate(int mode)
+    virtual public RollResult Evaluate(int mode)
     {
-        return 0;
+        return new RollResult();
     }
-    public int Evaluate() { return this.Evaluate(0); }
+    public RollResult Evaluate() { return this.Evaluate(0); }
     virtual public int GetDiceType()
     {
         return child.GetDiceType();
+    }
+    virtual public int NumberUsed()
+    {
+        return child.NumberUsed();
     }
 }
 /* DO NOT USE THIS CLASS
  * DO NOT USE THIS CLASS
  * DO NOT USE THIS CLASS
  * DO NOT USE THIS CLASS */
+
+
+
 
 // VV USE THESE VV
 
@@ -52,20 +122,48 @@ public class _Dice : RollComponent
         diceType = d;
     }
 
-    override public int  Evaluate(int mode)
+    override public RollResult Evaluate(int mode)
     {
         switch (mode)
         {
-            case 1: return 1;
-            case 2: return diceType;
-            default: return Roll();
+            case 1: return (RollResult)1;
+            case 2: return (RollResult)diceType;
+            default: return (RollResult)Roll();
         }
     }
-    private int Roll() { return Random.Range(1, diceType + 1); }
+    private int Roll() { return UnityEngine.Random.Range(1, diceType + 1); }
 
     public override int GetDiceType()
     {
         return diceType;
+    }
+    public override int NumberUsed()
+    {
+        return 1;
+    }
+}
+
+//MULTIPLIER
+public class _Multi : RollComponent
+{
+    public int multi { get; private set; }
+    public _Multi(RollComponent c, int m)
+    {
+        child = c;
+        multi = m + 1;
+    }
+
+    public override RollResult Evaluate(int mode)
+    {
+        RollResult result = new RollResult();
+        RollResult[] rollResults = new RollResult[multi];
+        foreach(RollResult r in rollResults) { result += r; }
+
+        return result;
+    }
+    public override int NumberUsed()
+    {
+        return multi * child.NumberUsed();
     }
 }
 
@@ -79,7 +177,7 @@ public class _Mod : RollComponent
         mod = m;
     }
 
-    override public int Evaluate(int mode)
+    override public RollResult Evaluate(int mode)
     {
         return child.Evaluate(mode) + mod;
     }
@@ -95,10 +193,10 @@ public class _Reroll : RollComponent
         rerollThreshhold = c.Evaluate(1) + threshholdSize - 1;
     }
 
-    override public int Evaluate(int mode)
+    override public RollResult Evaluate(int mode)
     {
-        int r = child.Evaluate(mode);
-        if (r <= rerollThreshhold)
+        RollResult r = child.Evaluate(mode);
+        if ((int)r <= rerollThreshhold)
         {
             r = child.Evaluate(mode);
         }
@@ -116,9 +214,11 @@ public class _Min : RollComponent
         min = c.Evaluate(1) + m;
     }
 
-    override public int Evaluate(int mode)
+    override public RollResult Evaluate(int mode)
     {
-        return Mathf.Max(child.Evaluate(mode), min);
+        RollResult r = child.Evaluate(mode);
+        r.result = Mathf.Min(min, r.result);
+        return r;
     }
 }
 
@@ -129,9 +229,12 @@ public class _Advantage : RollComponent
     {
         child = c;
     }
-    override public int Evaluate(int mode)
+    override public RollResult Evaluate(int mode)
     {
-        return Mathf.Max(child.Evaluate(mode), child.Evaluate(mode));
+        RollResult r1 = child.Evaluate(mode);
+        RollResult r2 = child.Evaluate(mode);
+        if (r1 < r2) { return r2; }
+            else { return r1; }
     }
 }
 
@@ -144,14 +247,16 @@ public class _Explode : RollComponent
         child = c;
         explodeThreshhold = c.Evaluate(2) - threshholdSize + 1;
     }
-    override public int Evaluate(int mode)
+    override public RollResult Evaluate(int mode)
     {
-        int r = child.Evaluate(mode);
-        if (r >= explodeThreshhold) { if (mode == 2) { r += child.Evaluate(mode);/* limit to 1 explode when calculating max */ } else { r += Evaluate(mode); } }
+        RollResult r = child.Evaluate(mode);
+        if (r >= explodeThreshhold) { if (mode == 2) { r += child.Evaluate(mode); } /* limit to 1 explode when calculating max */
+            else { r += this.Evaluate(mode); } }
         return r;
     }
 }
 
+//CRIT
 public class _Crit : RollComponent
 {
     public int critThreshhold { get; private set; }
@@ -161,9 +266,13 @@ public class _Crit : RollComponent
         critThreshhold = c.Evaluate(2) - threshholdSize + 1;
     }
 
-    override public int Evaluate(int mode)
+    override public RollResult Evaluate(int mode)
     {
-        return child.Evaluate(mode) * 2;
+        RollResult result = child.Evaluate(mode);
+
+        if(result >= critThreshhold) { result += child.Evaluate(mode); }
+
+        return result;
     }
 }
 
