@@ -141,6 +141,11 @@ public class _Dice : RollComponent
     {
         return 1;
     }
+
+    public override string ToString()
+    {
+        return "d" + diceType;
+    }
 }
 
 //MULTIPLIER
@@ -165,6 +170,11 @@ public class _Multi : RollComponent
     {
         return multi * child.NumberUsed();
     }
+
+    public override string ToString()
+    {
+        return "" + multi + "( " + child.ToString() + " )";
+    }
 }
 
 //MODIFIER
@@ -180,6 +190,11 @@ public class _Mod : RollComponent
     override public RollResult Evaluate(int mode)
     {
         return child.Evaluate(mode) + mod;
+    }
+
+    public override string ToString()
+    {
+        return child.ToString() + " + " + mod;
     }
 }
 
@@ -202,6 +217,11 @@ public class _Reroll : RollComponent
         }
         return r;
     }
+
+    public override string ToString()
+    {
+        return "( " + child.ToString() + " )r" + rerollThreshhold;
+    }
 }
 
 //MIN
@@ -220,6 +240,11 @@ public class _Min : RollComponent
         r.result = Mathf.Min(min, r.result);
         return r;
     }
+
+    public override string ToString()
+    {
+        return "( " + child.ToString() + " )min" + min;
+    }
 }
 
 //ADVANTAGE
@@ -235,6 +260,11 @@ public class _Advantage : RollComponent
         RollResult r2 = child.Evaluate(mode);
         if (r1 < r2) { return r2; }
             else { return r1; }
+    }
+
+    public override string ToString()
+    {
+        return "Adv( " + child.ToString() + " )";
     }
 }
 
@@ -254,25 +284,10 @@ public class _Explode : RollComponent
             else { r += this.Evaluate(mode); } }
         return r;
     }
-}
 
-//CRIT
-public class _Crit : RollComponent
-{
-    public int critThreshhold { get; private set; }
-    public _Crit(RollComponent c, int threshholdSize)
+    public override string ToString()
     {
-        child = c;
-        critThreshhold = c.Evaluate(2) - threshholdSize + 1;
-    }
-
-    override public RollResult Evaluate(int mode)
-    {
-        RollResult result = child.Evaluate(mode);
-
-        if(result >= critThreshhold) { result += child.Evaluate(mode); }
-
-        return result;
+        return "( " + child.ToString() + " )ex" + explodeThreshhold + "+";
     }
 }
 
